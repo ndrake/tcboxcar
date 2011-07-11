@@ -1,0 +1,17 @@
+# Introduction #
+
+This package is a [TeamCity](http://www.jetbrains.com/teamcity/) plugin to allow users to receive build notifications via [Boxcar](http://boxcar.io).
+
+# Prerequisites # 
+
+  * The tcboxcar jar
+  * A Boxcar account
+
+# Installation #
+ 
+  * Follow pre-4.0 plugin installation instructions from here: http://confluence.jetbrains.net/display/TCD6/Installing+Additional+Plugins
+  ** Both tcgrowl.jar and binaryblizzard.jar are required
+  * On your [TeamCity](http://www.jetbrains.com/teamcity/) user setting page setup the ip address where Growl/JGrowl is listening and a password if you have one set
+  * Edit your notification settings for Growl Notifier
+  * Install Growl/API server in your Boxcar account
+  

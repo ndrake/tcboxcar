@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<project name="tcboxcar" default="compile" basedir=".">
+	<property name="src" value="./src"/>
+	<property name="build" value="./build"/>
+	<property name="dist" value="./dist"/>
+	<property name="compile.debug" value="true"/>
+	
+	<property name="tc.home" value="/Users/ndrake/TeamCity"/>
+	<property name="tc.data.dir" value="/Users/ndrake/.BuildServer"/>
+	<property name="tc.lib" value="${tc.home}/webapps/ROOT/WEB-INF/lib"/>
+	<property name="deploy.dir" value="${tc.data.dir}/plugins"/>
+	
+	<property name="version.num" value="0.1"/>
+
+	<path id="compile.classpath">
+		<fileset dir="lib">
+		    <include name="javaee-api-5.jar"/>
+		    <include name="httpclient-4.1.1.jar"/>
+		    <include name="httpcore-4.1.jar"/>
+		</fileset>	    
+		<fileset dir="${tc.lib}">
+			<include name="*.jar"/>
+			<exclude name="commons-httpclient-3.1.jar"/>
+		</fileset>
+	</path>
+
+
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" 
+               destdir="${build}"
+               debug="${compile.debug}"
+               source="1.5">
+			<classpath refid="compile.classpath"/>
+		</javac>
+	</target>
+
+    <target name="run-test" depends="compile">
+        <java classname="net.slimeslurp.tcboxcar.BoxcarApi">
+            <classpath refid="compile.classpath"/>
+            <classpath>
+                <pathelement path="build"/>
+            </classpath>
+        </java>
+    </target>
+
+	<target name="init">
+		<mkdir dir="${build}"/>
+		<mkdir dir="${dist}"/>
+	</target>
+
+	<target name="dist" depends="compile">
+		
+		<copy todir="${build}/buildServerResources">
+		    <fileset dir="buildServerResources"/>
+	    </copy>
+	    
+	    <copy file="teamcity-plugin.xml" todir="${build}"/>
+		
+		<jar destfile="${dist}/tcboxcar.jar" basedir="build">
+			<metainf dir="META-INF">
+			   <include name="*"/>
+			</metainf>
+		</jar>
+  
+  	</target>
+	
+	<target name="deploy" depends="dist">
+
+	    <zip destfile="${dist}/tcboxcar.zip" basedir="${dist}" includes="*.jar"/>
+	    
+		<copy file="${dist}/tcboxcar.zip" todir="${deploy.dir}"/>
+	</target>
+
+	<target name="clean" description="Removes previous build">
+		<delete dir="${build}"/>
+		<delete dir="${dist}"/>
+	</target>
+
+</project>
+
