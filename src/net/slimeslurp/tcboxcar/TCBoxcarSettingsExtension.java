@@ -8,15 +8,19 @@ import jetbrains.buildServer.web.openapi.PlaceId;
 
 public class TCBoxcarSettingsExtension extends SimplePageExtension {
     
+    private static final String PLUGIN_NAME = "tcboxcar";
+    
     public TCBoxcarSettingsExtension(PagePlaces pagePlaces) {    
         super(pagePlaces);        
         setIncludeUrl("tcboxcarSettings.jsp");
         setPlaceId(PlaceId.NOTIFIER_SETTINGS_FRAGMENT);
-        setPluginName("tcboxcar");
+        setPluginName(PLUGIN_NAME);
         register();
     }
     
     public boolean isAvailable(HttpServletRequest request) {
-        return super.isAvailable(request);
+        // Only show this when displaying our notificator settings
+        String notificatorParam = request.getParameter("notificatorType");
+        return notificatorParam != null && notificatorParam.equals("tcboxcarNotifier");
     }    
 }
