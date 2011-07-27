@@ -45,6 +45,7 @@
 
 	<target name="init">
 		<mkdir dir="${build}"/>
+		<mkdir dir="${build}/lib"/>		
 		<mkdir dir="${dist}"/>
 	</target>
 
@@ -55,19 +56,36 @@
 	    </copy>
 	    
 	    <copy file="teamcity-plugin.xml" todir="${build}"/>
+	    <!--
+	    <copy todir="${build}/lib">
+	        <fileset dir="lib">
+		        <exclude name="javaee-api-5.jar"/>
+	        </fileset>
+        </copy>	        
+		-->
 		
-		<jar destfile="${dist}/tcboxcar.jar" basedir="build">
+		<mkdir dir="${dist}/server"/>
+		
+		<jar destfile="${dist}/server/tcboxcar.jar" basedir="build">
 			<metainf dir="META-INF">
 			   <include name="*"/>
 			</metainf>
 		</jar>
+		
+	    <copy todir="${dist}/server">
+	        <fileset dir="lib">
+		        <exclude name="javaee-api-5.jar"/>
+	        </fileset>
+        </copy>	        
+		
+		<zip destfile="${dist}/tcboxcar.zip" basedir="${dist}">
+		    <include name="server/*"/>
+	    </zip>
+		
   
   	</target>
 	
 	<target name="deploy" depends="dist">
-
-	    <zip destfile="${dist}/tcboxcar.zip" basedir="${dist}" includes="*.jar"/>
-	    
 		<copy file="${dist}/tcboxcar.zip" todir="${deploy.dir}"/>
 	</target>
 

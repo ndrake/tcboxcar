@@ -6,4 +6,5 @@
     <display-name>tcboxcar</display-name>
     <version>0.1</version>
   </info>
+  <deployment use-separate-classloader="true" />
 </teamcity-plugin>
