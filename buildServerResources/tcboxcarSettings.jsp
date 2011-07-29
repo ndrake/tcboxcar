@@ -8,15 +8,15 @@
             alert("Please enter your Boxcar email address.");
             return;
         }
-        var gp = $('properties[tcboxcar.gPassword].value');
+        var gp = $('properties[tcboxcar.password].value');
         
         var gm = $('boxcarTestMessage').value;
-        if(!gm || gm.length ==0) {
+        if(!gm || gm.length == 0) {
             return;
         }
     
         BS.ajaxRequest($('boxcarTestForm').action, {
-            parameters: 'boxcarServer='+ gs.value + (gp&&gp.value.length>0?'&boxcarPassword='+gp.value+'&':'&')+'boxcarTestMessage='+gm,
+            parameters: 'boxcarEmail='+ gs.value + (gp&&gp.value.length>0?'&boxcarPassword='+gp.value+'&':'&')+'boxcarTestMessage='+gm,
             onComplete: function(transport) {
               if (transport.responseXML) {
                   $('tcboxcarTest').refresh();

@@ -1,5 +1,6 @@
 package net.slimeslurp.tcboxcar;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
@@ -25,6 +26,8 @@ import jetbrains.buildServer.serverSide.SProject;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.vcs.VcsRoot;
+
+import org.apache.http.HttpException;
 
 
 /**
@@ -208,25 +211,14 @@ public class BoxcarNotifier implements Notificator {
             String boxcarEmail = user.getPropertyValue(EMAIL_KEY);
             String boxcarPasswd = user.getPropertyValue(PASSWORD_KEY);
 
-            // Do the Boxcar thing
-            
-            // Send data
-            // HttpPost http = new HttpPost(getUrl());
-            // 
-            // //POST with login
-            // List <NameValuePair> nvps = new ArrayList <NameValuePair>();
-            //             nvps.add(new BasicNameValuePair("email", this.account));
-            //             nvps.add(new BasicNameValuePair("notification[from_screen_name]", this.appname));
-            //             nvps.add(new BasicNameValuePair("notification[message]", data));
-            //             http.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
-            // 
-            //             HttpResponse response = httpclient.execute(http);
-            //             HttpEntity entity = response.getEntity();
-            // 
-            //             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-            //              throw new HttpException();
-            //             }
-            
+            try {
+                BoxcarApi.sendNotification(boxcarEmail, boxcarPasswd, message, "Teamcity", 
+                    (int)System.currentTimeMillis());            
+            } catch(IOException e) {
+                LOG.warn("IOException sending boxcar notification to user: " + username, e);  
+            } catch(HttpException e) {
+                LOG.warn("HttpException sending boxcar notification to user: " + username, e);  
+            }
 	    }    
 	    
 	}

@@ -94,52 +94,14 @@ public class TCBoxcarSettingsController extends BaseController {
         String boxcarPassword = request.getParameter("boxcarPassword");
         String msg = request.getParameter("boxcarTestMessage");
 
+        System.err.println("email: " + boxcarEmail);
+        System.err.println("msg: " + msg);
         // Do Boxcar Send
         LOG.warn("doAction boxcar settings controller");
         try {
-            
-            DefaultHttpClient client = new DefaultHttpClient(); 
+                            
+            BoxcarApi.sendNotification(boxcarEmail, boxcarPassword, msg, "Teamcity", (int)System.currentTimeMillis());
 
-            client.getCredentialsProvider().setCredentials(
-                new AuthScope("boxcar.io", 443, AuthScope.ANY_REALM),
-                new UsernamePasswordCredentials(boxcarEmail, boxcarPassword));
-                
-                
-            //CredentialsProvider credsProvider = new BasicCredentialsProvider();
-            //Credentials defaultcreds = new UsernamePasswordCredentials(boxcarEmail, boxcarPassword);
-            //credsProvider.setCredentials(new AuthScope("boxcar.io", 443, AuthScope.ANY_REALM), defaultcreds);
-            
-            // Send data
-		    HttpPost http = new HttpPost("https://boxcar.io/notification");
-
-		    //POST with login
-		    List <BasicNameValuePair> nvps = new ArrayList <BasicNameValuePair>();
-            nvps.add(new BasicNameValuePair("email", boxcarEmail));
-            nvps.add(new BasicNameValuePair("notification[from_screen_name]", "TeamCity"));
-            nvps.add(new BasicNameValuePair("notification[message]", msg));
-            http.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
-
-            HttpResponse response = client.execute(http);
-            //HttpEntity entity = response.getEntity();
-
-            if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-            	throw new HttpException();
-            }
-            
-            // URL url = new URL ("https://boxcar.io/notification");
-            // String encoding = Base64Encoder.encode (growlEmail+":"+growlPassword);
-            // 
-            // HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            // connection.setRequestMethod("POST");
-            // connection.setDoOutput(true);
-            // connection.setRequestProperty  ("Authorization", "Basic " + encoding);
-            // InputStream content = (InputStream)connection.getInputStream();
-            // BufferedReader in   = 
-            //     new BufferedReader (new InputStreamReader (content));
-            // String line;
-            // while ((line = in.readLine()) != null) {
-            //     System.out.println(line);
-            // }
         } catch(Exception e) {
             e.printStackTrace();
         }
