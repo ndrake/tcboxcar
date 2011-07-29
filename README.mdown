@@ -9,6 +9,14 @@ This package is a [TeamCity](http://www.jetbrains.com/teamcity/) plugin to allow
 
 # Installation #
  
-  The plugin isn't working just yet.  Will include instructions once it is.
-  
+## Boxcar setup ##
+  * Add the "Growl" service to your Boxcar account
+
+## TeamCity setup ##
+  * Download the plugin zip file
+  * Put it in .BuilderServer/plugins
+  * Restart TeamCity
+  * Configure the notifier in TeamCity with your Boxcar username/password and when you want to receive the notifications  
+ 
+http://confluence.jetbrains.net/display/TCD6/Installing+Additional+Plugins
   
