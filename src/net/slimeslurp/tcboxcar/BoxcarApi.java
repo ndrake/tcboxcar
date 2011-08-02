@@ -61,25 +61,23 @@ public class BoxcarApi {
             new UsernamePasswordCredentials(email, password));
             
                         
-	    HttpPost http = new HttpPost(POST_URL);
+	HttpPost http = new HttpPost(POST_URL);
 
-	    //POST with login
-	    List <BasicNameValuePair> nvps = new ArrayList <BasicNameValuePair>();
-        nvps.add(new BasicNameValuePair("email", email));
-        nvps.add(new BasicNameValuePair("notification[from_screen_name]", fromScreenName));
-        nvps.add(new BasicNameValuePair("notification[message]", message));
-        nvps.add(new BasicNameValuePair("notification[from_remote_service_id]", 
-            (fromRemoteServiceId != null ? fromRemoteServiceId.toString() : 
-                                           String.valueOf(System.currentTimeMillis()))));
-        http.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
-
-        HttpResponse response = client.execute(http);
-
-        if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {                
-        	throw new HttpException( "Bad response code: " + response.getStatusLine().getStatusCode());
-        }
-        
-        
+	//POST with login
+	List <BasicNameValuePair> nvps = new ArrayList <BasicNameValuePair>();
+	nvps.add(new BasicNameValuePair("email", email));
+	nvps.add(new BasicNameValuePair("notification[from_screen_name]", fromScreenName));
+	nvps.add(new BasicNameValuePair("notification[message]", message));
+	nvps.add(new BasicNameValuePair("notification[from_remote_service_id]", 
+					(fromRemoteServiceId != null ? fromRemoteServiceId.toString() : 
+					 String.valueOf(System.currentTimeMillis()))));
+	http.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
+	
+	HttpResponse response = client.execute(http);
+	
+	if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {                
+	    throw new HttpException( "Bad response code: " + response.getStatusLine().getStatusCode());
+	}                
     }
     
 }
