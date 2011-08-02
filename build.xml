@@ -5,8 +5,8 @@
 	<property name="dist" value="./dist"/>
 	<property name="compile.debug" value="true"/>
 	
-	<property name="tc.home" value="/Users/ndrake/TeamCity"/>
-	<property name="tc.data.dir" value="/Users/ndrake/.BuildServer"/>
+	<property name="tc.home" value="${user.home}/TeamCity"/>
+	<property name="tc.data.dir" value="${user.home}/.BuildServer"/>
 	<property name="tc.lib" value="${tc.home}/webapps/ROOT/WEB-INF/lib"/>
 	<property name="deploy.dir" value="${tc.data.dir}/plugins"/>
 	
